@@ -2,6 +2,11 @@ values: {
 	deploymentName: "my-app-deployment-prod"
 	serviceName:    "my-app-service-prod"
 
+    selector: {
+		labels: {
+			"app.kubernetes.io/namespace" : "production"
+		}
+	}
 	replicas: 3
 
 	service: {
@@ -14,6 +19,7 @@ values: {
 	}
 
 	hpa: {
+		hpaName: "my-app-hpa-prod"
 		enabled:     true
 		minReplicas: 2
 		maxReplicas: 5
@@ -23,7 +29,7 @@ values: {
 				resource: {
 					name: "cpu"
 					target: {
-						type:               "Utilization"
+						type: "Utilization"
 						averageUtilization: 80
 					}
 				}

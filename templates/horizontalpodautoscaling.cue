@@ -8,7 +8,10 @@ import (
 	_config:    #Config
 	apiVersion: "autoscaling/v2"
 	kind:       "HorizontalPodAutoscaler"
-	metadata:   _config.metadata
+	metadata: {
+		name:      _config.hpa.hpaName
+		namespace: _config.metadata.namespace
+	}
 	if _config.hpa.annotations != _|_ {
 		metadata: annotations: _config.hpa.annotations
 	}
