@@ -1,15 +1,45 @@
-// values.cue - Default configuration
-// This file contains the base configuration that is shared across environments.
-// It is merged with environment-specific values.cue files (e.g. values-prod.cue).
 values: {
-	image: {
-	    repository: "docker.io/nginx"
-		tag:        "1.29.6"
-		digest:     ""
-		pullPolicy: "IfNotPresent"
+	deploymentName: "my-app-deployment-prod"
+	serviceName:    "my-app-service-prod"
+
+    selector: {
+		labels: {
+			"app.kubernetes.io/namespace" : "production"
+		}
+	}
+	replicas: 3
+
+	service: {
+		port: 80
+	}
+
+	env: {
+		MY_ENV_VAR:  "prod-value"
+		ANOTHER_VAR: "prod-another-value"
+	}
+
+	hpa: {
+		hpaName: "my-app-hpa-prod"
+		enabled:     true
+		minReplicas: 2
+		maxReplicas: 5
+		metrics: [
+			{
+				type: "Resource"
+				resource: {
+					name: "cpu"
+					target: {
+						type: "Utilization"
+						averageUtilization: 80
+					}
+				}
+			},
+		]
 	}
 
 	virtualService: {
 		enabled: false
+		hosts: ["prod-app.example.com"]
+		gateways: ["istio-system/prod-gateway"]
 	}
 }
