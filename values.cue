@@ -1,15 +1,38 @@
-// values.cue - Default configuration
-// This file contains the base configuration that is shared across environments.
-// It is merged with environment-specific values.cue files (e.g. values-prod.cue).
 values: {
-	image: {
-		repository: "docker.io/nginx"
-		tag:        "1.29.6"
-		digest:     ""
-		pullPolicy: "IfNotPresent"
+	deploymentName: "my-app-deployment-beta"
+	serviceName:    "my-app-service-beta"
+
+	replicas: 1
+
+	service: {
+		port: 80
+	}
+
+	env: {
+		MY_ENV_VAR: "test-env-variable"
+	}
+
+	hpa: {
+		enabled:     true
+		minReplicas: 1
+		maxReplicas: 3
+		metrics: [
+			{
+				type: "Resource"
+				resource: {
+					name: "cpu"
+					target: {
+						type:               "Utilization"
+						averageUtilization: 60
+					}
+				}
+			},
+		]
 	}
 
 	virtualService: {
 		enabled: true
+		hosts: ["beta-app.example.com"]
+		gateways: ["istio-system/beta-gateway"]
 	}
 }
