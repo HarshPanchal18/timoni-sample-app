@@ -5,28 +5,39 @@ import (
 )
 
 #HorizontalPodAutoscaling: autoscalingv2.#HorizontalPodAutoscaler & {
-	_config:    #Config
+	#config:    #Config
 	apiVersion: "autoscaling/v2"
 	kind:       "HorizontalPodAutoscaler"
-	metadata:   _config.metadata
-	if _config.hpa.annotations != _|_ {
-		metadata: annotations: _config.hpa.annotations
+	metadata:   {
+		if #config.hpa.name != _|_ {
+			name: #config.hpa.name
+		}
+		if #config.hpa.name == _|_ {
+			name: #config.metadata.name
+		}
+		namespace: #config.metadata.namespace
+		labels:    #config.metadata.labels
+		if #config.hpa.annotations != _|_ {
+			annotations: #config.hpa.annotations
+		}
 	}
 	spec: autoscalingv2.#HorizontalPodAutoscalerSpec & {
 		scaleTargetRef: {
 			apiVersion: "apps/v1"
 			kind:       "Deployment"
-			name:       _config.deploymentName
+			name:       #config.deploymentName
 		}
-		if _config.hpa.minReplicas != _|_ {
-			minReplicas: _config.hpa.minReplicas
-		}
-		maxReplicas: _config.hpa.maxReplicas
-		if _config.hpa.metrics != _|_ {
-			metrics: _config.hpa.metrics
-		}
-		if _config.hpa.behavior != _|_ {
-			behavior: _config.hpa.behavior
+		if #config.hpa != _|_ {
+			if #config.hpa.minReplicas != _|_ {
+				minReplicas: #config.hpa.minReplicas
+			}
+			maxReplicas: #config.hpa.maxReplicas
+			if #config.hpa.metrics != _|_ {
+				metrics: #config.hpa.metrics
+			}
+			if #config.hpa.behavior != _|_ {
+				behavior: #config.hpa.behavior
+			}
 		}
 	}
 }

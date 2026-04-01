@@ -11,7 +11,7 @@ import (
 	kind:       "Deployment"
 	metadata: {
 		name:      #config.deploymentName
-		namespace: #config.metadata.namespace
+		namespace: #config.namespace
 		labels:    #config.metadata.labels
 		if #config.metadata.annotations != _|_ {
 			annotations: #config.metadata.annotations

@@ -91,9 +91,12 @@ import (
 	// Add deploymentName field
 	deploymentName!: string
 
+	namespace!: string
+
 	// HPA settings.
 	hpa?: {
 		enabled: *false | bool
+		name?: string
 		maxReplicas!: int
 		minReplicas?: int
 		metrics?: [...autoscalingv2.#MetricSpec]
@@ -123,7 +126,7 @@ import (
 		}
 
 		if config.hpa != _|_ if config.hpa.enabled {
-			hpa: #HorizontalPodAutoscaling & {_config: config}
+			hpa: #HorizontalPodAutoscaling & {#config: config}
 		}
 
 		if config.virtualService != _|_ if config.virtualService.enabled {
