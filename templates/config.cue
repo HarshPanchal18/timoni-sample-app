@@ -94,7 +94,6 @@ import (
 
 	// HPA settings.
 	hpa?: {
-		hpaName!: string
 		enabled: *false | bool
 		name?: string
 		maxReplicas!: int
