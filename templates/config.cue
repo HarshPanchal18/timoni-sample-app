@@ -36,6 +36,7 @@ import (
 	// The `app.kubernetes.io/name` label selector is automatically generated
 	// from the instance name and can't be overwritten.
 	selector: timoniv1.#Selector & {#Name: metadata.name}
+
 	// The image allows setting the container image repository,
 	// tag, digest and pull policy.
 	// The default image repository and tag is set in `values.cue`.
@@ -94,7 +95,6 @@ import (
 
 	// HPA settings.
 	hpa?: {
-		hpaName!: string
 		enabled: *false | bool
 		name?: string
 		maxReplicas!: int
