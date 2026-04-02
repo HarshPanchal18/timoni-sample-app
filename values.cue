@@ -33,7 +33,7 @@ values: {
 	}
 
 	virtualService: {
-		enabled: true
+		enabled: false
 		name:    "my-app-vs"
 		hosts: ["prod-app.example.com"]
 		gateways: ["istio-system/prod-gateway"]
