@@ -36,6 +36,7 @@ import (
 	// The `app.kubernetes.io/name` label selector is automatically generated
 	// from the instance name and can't be overwritten.
 	selector: timoniv1.#Selector & {#Name: metadata.name}
+
 	// The image allows setting the container image repository,
 	// tag, digest and pull policy.
 	// The default image repository and tag is set in `values.cue`.
@@ -90,10 +91,12 @@ import (
 	// Add deploymentName field
 	deploymentName!: string
 
+	namespace!: string
+
 	// HPA settings.
 	hpa?: {
-		hpaName!: string
 		enabled: *false | bool
+		name?: string
 		maxReplicas!: int
 		minReplicas?: int
 		metrics?: [...autoscalingv2.#MetricSpec]
@@ -123,7 +126,7 @@ import (
 		}
 
 		if config.hpa != _|_ if config.hpa.enabled {
-			hpa: #HorizontalPodAutoscaling & {_config: config}
+			hpa: #HorizontalPodAutoscaling & {#config: config}
 		}
 
 		if config.virtualService != _|_ if config.virtualService.enabled {

@@ -30,8 +30,9 @@ timoni: {
 		config: {
 			metadata: {
 				name:      string @tag(name)
-				namespace: string @tag(namespace)
+				namespace: values.namespace
 			}
+			_cliNamespace: string @tag(namespace)
 			moduleVersion: string @tag(mv, var=moduleVersion)
 			kubeVersion:   string @tag(kv, var=kubeVersion)
 		}
